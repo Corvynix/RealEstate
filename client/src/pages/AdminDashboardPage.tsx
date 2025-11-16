@@ -4,9 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Users, Building2, MessageSquare, TrendingUp, Activity } from 'lucide-react';
 import type { User, Property, AiCloserSession, Developer } from '@shared/schema';
+import { useBehaviorTracking } from '@/hooks/use-behavior-tracking';
 
 export default function AdminDashboardPage() {
   const { t } = useTranslation();
+  
+  useBehaviorTracking({ page: '/admin' });
 
   const { data: users, isLoading: loadingUsers } = useQuery<User[]>({
     queryKey: ['/api/users'],

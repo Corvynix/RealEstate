@@ -5,9 +5,12 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Search, Shield, Brain, TrendingUp, MessageSquare, FileCheck, Users } from 'lucide-react';
 import heroImage from '@assets/generated_images/Hero_cityscape_background_002dfd35.png';
+import { useBehaviorTracking } from '@/hooks/use-behavior-tracking';
 
 export default function HomePage() {
   const { t } = useTranslation();
+  
+  useBehaviorTracking({ page: '/' });
 
   const features = [
     {

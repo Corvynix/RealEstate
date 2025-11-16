@@ -7,11 +7,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Skeleton } from '@/components/ui/skeleton';
 import { Search } from 'lucide-react';
 import type { Developer } from '@shared/schema';
+import { useBehaviorTracking } from '@/hooks/use-behavior-tracking';
 
 export default function DevelopersPage() {
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('trust-score');
+  
+  useBehaviorTracking({ page: '/developers' });
 
   const { data: developers, isLoading } = useQuery<Developer[]>({
     queryKey: ['/api/developers'],
@@ -27,13 +30,13 @@ export default function DevelopersPage() {
   const sortedDevelopers = [...filteredDevelopers].sort((a, b) => {
     switch (sortBy) {
       case 'trust-score':
-        return b.trustScore - a.trustScore;
+        return (b.trustScore || 0) - (a.trustScore || 0);
       case 'projects':
-        return b.projectsCompleted - a.projectsCompleted;
+        return (b.projectsCompleted || 0) - (a.projectsCompleted || 0);
       case 'rating':
-        return b.averageRating - a.averageRating;
+        return (b.averageRating || 0) - (a.averageRating || 0);
       case 'years':
-        return b.yearsActive - a.yearsActive;
+        return (b.yearsActive || 0) - (a.yearsActive || 0);
       default:
         return 0;
     }

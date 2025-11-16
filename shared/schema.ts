@@ -117,6 +117,54 @@ export const behaviorTracking = pgTable("behavior_tracking", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// Contracts table - العقود
+export const contracts = pgTable("contracts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  propertyId: varchar("property_id").notNull().references(() => properties.id),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  fileUrl: text("file_url"),
+  analyzedRisks: jsonb("analyzed_risks").default([]).notNull(), // [{risk, severity, description}]
+  hiddenClauses: jsonb("hidden_clauses").default([]).notNull(),
+  annualIncreases: jsonb("annual_increases").default({}).notNull(),
+  status: text("status").default("pending").notNull(), // pending, analyzed, approved, rejected
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Objection Responses table - ردود على الاعتراضات
+export const objectionResponses = pgTable("objection_responses", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sessionId: varchar("session_id").notNull().references(() => aiCloserSessions.id),
+  objection: text("objection").notNull(),
+  response: text("response").notNull(),
+  successRate: real("success_rate"), // 0-100
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Scam Flags table - علامات الاحتيال
+export const scamFlags = pgTable("scam_flags", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  propertyId: varchar("property_id").references(() => properties.id),
+  developerId: varchar("developer_id").references(() => developers.id),
+  flagType: text("flag_type").notNull(), // pricing_anomaly, delivery_delay, legal_issue, fake_reviews
+  severity: text("severity").notNull(), // low, medium, high, critical
+  description: text("description").notNull(),
+  evidence: jsonb("evidence").default({}).notNull(),
+  status: text("status").default("active").notNull(), // active, resolved, false_positive
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Referrals table - الإحالات
+export const referrals = pgTable("referrals", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  referrerId: varchar("referrer_id").notNull().references(() => users.id),
+  refereeId: varchar("referee_id").references(() => users.id),
+  code: text("code").notNull().unique(),
+  status: text("status").default("pending").notNull(), // pending, completed, rewarded
+  reward: real("reward").default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ one, many }) => ({
   buyerProfile: one(buyerProfiles, {
@@ -213,6 +261,27 @@ export const insertPropertyMatchSchema = createInsertSchema(propertyMatches).omi
 export const insertBehaviorTrackingSchema = createInsertSchema(behaviorTracking).omit({
   id: true,
   createdAt: true,
+});
+
+export const insertContractSchema = createInsertSchema(contracts).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertObjectionResponseSchema = createInsertSchema(objectionResponses).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertScamFlagSchema = createInsertSchema(scamFlags).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertReferralSchema = createInsertSchema(referrals).omit({
+  id: true,
+  createdAt: true,
+  completedAt: true,
 });
 
 // Types

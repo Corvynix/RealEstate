@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { generateAIResponse, qualifyBuyer } from "./openai";
+import { generateAIResponse, qualifyBuyer } from "./gemini";
 import { 
   insertUserSchema, insertDeveloperSchema, insertPropertySchema,
   insertBuyerProfileSchema, insertAiCloserSessionSchema,
@@ -157,6 +157,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
 Keep responses concise and conversational.`;
 
+  app.get("/api/ai-closer/session/:sessionId", async (req, res) => {
+    try {
+      const session = await storage.getAiCloserSession(req.params.sessionId);
+      if (!session) {
+        return res.status(404).json({ error: "Session not found" });
+      }
+      res.json(session);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch session" });
+    }
+  });
+
   app.post("/api/ai-closer/start", async (req, res) => {
     try {
       const { message } = req.body;
@@ -187,15 +199,14 @@ Keep responses concise and conversational.`;
 
       res.json({
         sessionId: session.id,
-        message: {
-          role: 'assistant',
-          content: aiResponse,
-          timestamp: new Date().toISOString(),
-        },
+        messages: [
+          { role: 'user', content: message, timestamp: new Date().toISOString() },
+          { role: 'assistant', content: aiResponse, timestamp: new Date().toISOString() },
+        ],
       });
     } catch (error) {
       console.error('AI Closer start error:', error);
-      res.status(500).json({ error: "Failed to start AI conversation" });
+      res.json({ error: "Failed to start AI conversation" });
     }
   });
 
@@ -253,11 +264,10 @@ Keep responses concise and conversational.`;
       }
 
       res.json({
-        message: {
-          role: 'assistant',
-          content: aiResponse,
-          timestamp: new Date().toISOString(),
-        },
+        messages: [
+          { role: 'user', content: message, timestamp: new Date().toISOString() },
+          { role: 'assistant', content: aiResponse, timestamp: new Date().toISOString() },
+        ],
         qualification,
       });
     } catch (error) {

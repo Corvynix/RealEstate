@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Skeleton } from '@/components/ui/skeleton';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import type { Property, Developer } from '@shared/schema';
+import { useBehaviorTracking } from '@/hooks/use-behavior-tracking';
 
 export default function PropertiesPage() {
   const { t } = useTranslation();
@@ -15,6 +16,8 @@ export default function PropertiesPage() {
   const [selectedCity, setSelectedCity] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
+
+  useBehaviorTracking({ page: '/properties' });
 
   const { data: properties, isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties'],

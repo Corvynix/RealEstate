@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Send, Bot, User, Loader2 } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
+import { useBehaviorTracking } from '@/hooks/use-behavior-tracking';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -18,8 +19,12 @@ export default function AICloserPage() {
   const { t } = useTranslation();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
-  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [sessionId, setSessionId] = useState<string | null>(() => {
+    return localStorage.getItem('ai_closer_session_id');
+  });
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  
+  const { trackInteraction } = useBehaviorTracking({ page: '/ai-closer' });
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -34,22 +39,29 @@ export default function AICloserPage() {
     enabled: !!sessionId,
   });
 
+  useEffect(() => {
+    if (session?.sessionHistory) {
+      setMessages(session.sessionHistory as Message[]);
+    }
+  }, [session]);
+
   const sendMessageMutation = useMutation({
     mutationFn: async (message: string) => {
       if (!sessionId) {
-        const response = await apiRequest<{ sessionId: string; message: Message }>('POST', '/api/ai-closer/start', { message });
-        return response;
+        const response = await apiRequest('POST', '/api/ai-closer/start', { message });
+        return await response.json();
       } else {
-        const response = await apiRequest<{ message: Message }>('POST', `/api/ai-closer/${sessionId}/message`, { message });
-        return response;
+        const response = await apiRequest('POST', `/api/ai-closer/${sessionId}/message`, { message });
+        return await response.json();
       }
     },
-    onSuccess: (data) => {
-      if ('sessionId' in data && !sessionId) {
+    onSuccess: (data: any) => {
+      if (data.sessionId && !sessionId) {
         setSessionId(data.sessionId);
+        localStorage.setItem('ai_closer_session_id', data.sessionId);
       }
-      if (data.message) {
-        setMessages(prev => [...prev, data.message]);
+      if (data.messages && Array.isArray(data.messages)) {
+        setMessages(prev => [...prev, ...data.messages]);
       }
     },
   });

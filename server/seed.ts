@@ -8,6 +8,14 @@ const officeImage = '/attached_assets/generated_images/Commercial_building_exter
 async function seed() {
   console.log('🌱 Seeding database...');
 
+  // Create guest user for anonymous sessions
+  const guestUser = await storage.createUser({
+    id: 'guest-user',
+    name: 'Guest User',
+    email: 'guest@system.local',
+    role: 'client',
+  });
+
   // Create users
   const user1 = await storage.createUser({
     name: 'Ahmed Hassan',

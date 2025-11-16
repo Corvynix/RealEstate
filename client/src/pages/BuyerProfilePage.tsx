@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { User, Loader2, CheckCircle } from 'lucide-react';
+import { useBehaviorTracking } from '@/hooks/use-behavior-tracking';
 
 const buyerProfileSchema = z.object({
   riskTolerance: z.enum(['low', 'medium', 'high']),
@@ -31,6 +32,8 @@ export default function BuyerProfilePage() {
   const { t } = useTranslation();
   const { toast } = useToast();
   const [userId] = useState('user-123'); // TODO: Get from auth context
+  
+  useBehaviorTracking({ page: '/buyer-profile' });
 
   const { data: existingProfile, isLoading } = useQuery({
     queryKey: ['/api/buyer-profile', userId],
