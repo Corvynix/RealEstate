@@ -1,0 +1,103 @@
+System: أنت مطور ومستشار تقني متخصص في بناء منصات عقارية شاملة من الصفر، الهدف النهائي هو إنشاء موقع ومنصة تجعل صاحبها يتحكم في الثقة، القرار، والداتا لكل عميل ومطور في السوق العقاري في الوطن العربي، بحيث تصبح كل الصفقة والعمولة تمر من خلاله ويصبح النظام الوحيد المرجعي. 
+
+Task: ابدأ من الصفر وقدم خارطة كاملة، تشمل:
+1. بناء واجهات المستخدم (Front-end)
+2. بناء السيرفر والـ APIs (Back-end)
+3. تصميم قواعد البيانات (DB Schema)
+4. الذكاء الاصطناعي وإدارة القرار (AI Decision Engine)
+5. إدارة الثقة والمصداقية (Trust Layer)
+6. جمع وتحليل البيانات لكل تفاعل (Behavior & Analytics)
+7. تجربة الإطلاق الكاملة مع كل الأدوات لدعم النمو والهيمنة على السوق
+
+Requirements:
+
+# 1️⃣ قاعدة البيانات (Postgres/Supabase أو أي DB قوية)
+- Users: العملاء، مع كل بياناتهم الشخصية، تفضيلاتهم، سلوكهم، تسجيل دخول، مراحل القبول (funnel stage)
+- Developers: مطورين العقارات، سجلهم التاريخي، تقييمهم القانوني، التزاماتهم، مراجعات العملاء، trust score
+- Properties: كل العقارات، بياناتها، المطور المسؤول، المخاطر القانونية، أسعارها، توفرها
+- Contracts: مستندات العقود، تحليل المخاطر، البنود الغامضة، الزيادات السنوية، الشروط المخفية
+- AI_Closer_Sessions: كل جلسة مع العميل، الأسئلة، الإجابات، نتائج القرار
+- Buyer_Profiles: التحليل النفسي للعميل، درجة المخاطرة، الأولويات، تفضيلات العقار
+- Objection_Responses: ردود AI على اعتراضات العملاء، مدى نجاحها
+- Property_Matches: العقارات المقترحة لكل عميل + score مطابقة
+- Scam_Flags: أي مؤشرات على الاحتيال أو التضليل من مطور أو عقار
+- Referrals: روابط ومكافآت الإحالة، التاريخ، الحالة
+
+# 2️⃣ الـ Back-end (Node/Express أو Nest.js + TypeScript)
+- APIs:
+    - Auth: register, login, logout, forgot password
+    - Properties: CRUD, search, real-time updates
+    - Developers: CRUD, trust score calculation
+    - AI Closer: start session, send/receive messages, decision output
+    - Contracts: upload PDF/doc, parse, analyze, flag risks
+    - Objection Engine: send objection → AI response
+    - Property Match Engine: return top properties per client profile
+    - Analytics: behavioral tracking, micro-interactions
+    - Referrals & Rewards
+- Middleware:
+    - Auth & role-based access (client, agent, developer, admin)
+    - Rate limiting, security, logging
+    - Data validation (Zod or similar)
+- Integrations:
+    - Google Gemini / OpenAI: multi-turn AI closer & objection handling
+    - PDF parser for contracts
+    - Optional: payment gateway for developers to pay للظهور
+
+# 3️⃣ الـ Front-end (React + Vite + Tailwind)
+- صفحات:
+    - Landing Page: Hook + Trust Layer (محتوى فيديوهات قصيرة)
+    - Property Listings: قائمة العقارات المقترحة
+    - AI Closer Chat: واجهة محادثة، تظهر العميل والأسئلة والاقتراحات
+    - Contract Scanner: تحميل العقد، عرض المخاطر، الشرح البسيط
+    - Developer Profiles: trust score، مراجعات، تاريخ التسليم
+    - Buyer Profile Builder: اختبار سريع نفسي + budget + risk tolerance
+    - Property Match Dashboard: أفضل العقارات لكل عميل
+    - Referral Dashboard: إحالات ومكافآت
+- مكونات UI:
+    - Hero, PropertyCard, DeveloperCard, ChatBubble, RiskBadge, CTAButton
+- تفاعل البيانات:
+    - كل تفاعل client → tracked → backend → AI engine → تحسين decision
+
+# 4️⃣ AI Engine
+- Multi-turn conversational AI لتحديد احتياجات العميل، الميزانية، أولويات الشراء
+- Objection handling engine: يرد تلقائيًا على اعتراضات العميل ويقيس نجاح كل رد
+- Contract risk analysis engine: يقرأ PDF أو docx ويحدد البنود الغامضة أو المخاطر المالية
+- Property match engine: يربط بين buyer profile + developer + property data → يعطي score وترتيب
+
+# 5️⃣ Trust & Decision Layer
+- كل محتوى، فيديو، تقرير، تحليل سوق → يزيد من الثقة
+- كل قرار للشراء يمر من خلال AI Brain → يضمن أن العميل يشتري من خلالك فقط
+- كل مطور يريد الوصول للعميل → يدفع مقابل ظهوره أو تحليله → تضمن عمولة كاملة
+
+# 6️⃣ Analytics & Behavioral Data
+- تتبع كل نقر، scroll depth، الوقت على كل عنصر، تردد، اعتراضات
+- تخزين البيانات لتحسين AI Brain، توصيات العقارات، تقييم المطورين
+- Dashboard تحليلي لمراقبة سلوك العملاء، نجاح الاعتراضات، الأداء العام
+
+# 7️⃣ Launch & Growth
+- استراتيجية إطلاق: يبدأ بـ محتوى Hook قوي (حلقة صفر + فيديوهات قصيرة)
+- اجعل العملاء يسجلون → يستخدمون AI Closer → يقرروا العقار
+- اجعل المطورين والبروكرز يدفعون مقابل ظهورهم → النظام يولد العمولات
+- استمر بجمع البيانات → تحسين AI Brain → تعزيز الثقة → توسع السوق → احتكار طبيعي
+
+# 8️⃣ Deliverables
+- Full code: backend + frontend + AI integration
+- DB schema + migrations
+- AI prompt system جاهز لكل وحدة (closer, objection, risk analysis)
+- Frontend UX flows جاهزة للتفاعل مع العميل
+- Documentation & README جاهزة للنسخة الأولى للإطلاق
+
+Constraints:
+- Must support Arabic + English
+- Must be scalable (100k+ users)
+- Full TypeScript + typed DB models
+- AI decisions must be auditable
+
+Outcome:
+- A production-ready platform that: 
+    1. يجمع كل العملاء المحتملين
+    2. يوجههم لاتخاذ القرار الشرائي من خلالك فقط
+    3. يحلل العقود والمخاطر لكل صفقة
+    4. يقدم أفضل العقارات حسب سلوك العميل واحتياجاته
+    5. يسمح لك بتحصيل كل العمولات والرسوم من المطورين
+    6. يبني قاعدة بيانات ضخمة لكل قرار وسلوك ونتيجة → يضمن احتكار السوق

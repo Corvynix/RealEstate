@@ -1,0 +1,140 @@
+الغرض: بناء منصة عقارية عربية/إنجليزية تهيمن على السوق العربي عبر الثقة، القرار، والبيانات، تشمل AI Closer، Property Match Engine، وتتبع سلوك العملاء بالكامل.
+
+المخرجات المطلوبة:
+
+منصة ويب كاملة (Frontend + Backend)
+
+قاعدة بيانات PostgreSQL متكاملة
+
+واجهة عربية/إنجليزية كاملة (RTL + LTR)
+
+نظام AI Closer متكامل للتأهيل والمحادثة الذكية
+
+Property Match Engine يحلل ملفات العملاء ويقارنها بالعقارات
+
+ملفات مطورين مع Trust Score
+
+تتبع وتحليل السلوك (scroll depth, time-on-page, clicks, objections)
+
+لوحة تحكم تحليلية للمسؤولين
+
+🔹 تفصيل المكونات المطلوبة
+1️⃣ قاعدة البيانات (PostgreSQL)
+
+Users: id, name, email, phone, role, credits, buyer_profile_id, createdAt
+
+Developers: id, name, companyName, trust_score, delivery_history, reviews, legal_cases, createdAt
+
+Properties: id, title, city, propertyType, price, size, images[], developer_id, risk_flags, createdAt
+
+AI_Closer_Sessions: id, user_id, session_history[], status, createdAt
+
+Buyer_Profiles: id, user_id, psychological_profile, risk_tolerance, urgency_level, price_sensitivity
+
+Behavior_Tracking: id, user_id, page, scroll_depth, time_on_page, clicks[], interactions[], createdAt
+
+Property_Matches: id, user_id, property_id, match_score, createdAt
+
+2️⃣ Backend (Node.js + Express + TypeScript)
+
+REST APIs لكل شيء:
+
+/api/properties CRUD + search/filters
+
+/api/developers CRUD + trust score
+
+/api/ai-closer/start و /api/ai-closer/:sessionId/message
+
+/api/buyer-profile/:userId GET + POST
+
+/api/property-matches POST (محاكاة الذكاء الاصطناعي للمطابقة)
+
+/api/behavior POST (تتبع الأحداث)
+
+Middleware: auth, role-based access, rate limiting, error handling
+
+AI Integration: OpenAI GPT/Chat API للتعامل مع AI Closer
+
+3️⃣ Frontend (React + Vite + TypeScript + Tailwind)
+
+Pages:
+
+Landing/Home
+
+Property Listing + Filters
+
+Property Detail + Risk Indicators
+
+Developer Profile + Trust Score
+
+AI Closer Chat Interface
+
+Buyer Profile Builder (questionnaire تفاعلي)
+
+Property Match Results
+
+Admin Dashboard (analytics, behavior tracking, AI session monitoring)
+
+UI/UX:
+
+RTL support للعربية
+
+ألوان الثقة: ذهبي، أزرق داكن، أبيض، gradients بسيطة
+
+Hero sections مع CTA واضح
+
+Client-side:
+
+React Query أو TanStack Query لإدارة البيانات وcache
+
+Animations خفيفة لإظهار التفاعلات والسلوكيات
+
+4️⃣ AI Closer & Property Match Engine
+
+Multi-turn conversational AI:
+
+Qualify العميل (احتياجات، ميزانية، أولويات)
+
+توجيه قرارات الشراء الذكي
+
+تسجيل كل المحادثات لتحليل الأداء وتحسين النتائج
+
+Property Match Engine:
+
+يحسب التوافق بين العميل والعقارات
+
+يعرض أفضل الخيارات مع score لكل عقار
+
+5️⃣ Tracking & Analytics
+
+تتبع كل تفاعل للمستخدم: scroll depth, clicks, hesitation signals
+
+Dashboard يعرض:
+
+أداء AI Closer
+
+أكثر العقارات تفاعلًا
+
+Conversion rate لكل property
+
+Metrics للمطورين
+
+6️⃣ خطوات التطوير من الصفر حتى الإطلاق
+
+إعداد قاعدة البيانات ونماذج البيانات (PostgreSQL + Drizzle ORM)
+
+بناء Backend مع REST APIs لكل جدول ووظائف أساسية
+
+إنشاء Frontend مع صفحات رئيسية وعرض العقارات + Developer Profiles
+
+دمج AI Closer مع OpenAI GPT
+
+بناء Property Match Engine وربطه بالبيانات والسلوك
+
+إضافة Buyer Profile Builder وTracking Events
+
+بناء Admin Dashboard للتحليلات
+
+اختبار شامل + تحسين الأداء
+
+الإطلاق مع دعم كامل للعربية والإنجليزية
